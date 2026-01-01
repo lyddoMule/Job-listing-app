@@ -10,6 +10,18 @@ This project displays job cards populated with static JSON data.
 - Vite
 
 ## How to Run
-```bash
+```bash```
 npm install
 npm run dev
+
+## Features
+
+- Fetch and display job listings from an external API
+- Responsive and aesthetic UI using Tailwind CSS
+- Dynamic rendering of job cards
+- Basic error handling for API requests
+
+
+
+
+
