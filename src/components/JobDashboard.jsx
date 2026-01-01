@@ -1,30 +1,62 @@
+import { useEffect, useState } from "react";
 import JobCard from "./JobCard";
-import jobsData from "../data/jobsData";
+
+const API_URL =
+  "https://akil-backend.onrender.com/opportunities/search";
 
 const JobDashboard = () => {
-  return (
-    <div className="min-h-screen bg-gray-100 p-8">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Opportunities</h1>
-        <p className="text-gray-500">
-          Showing {jobsData.length} results
+  const [jobs, setJobs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetchJobs();
+  }, []);
+
+  const fetchJobs = async () => {
+    try {
+      const response = await fetch(API_URL);
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch job opportunities");
+      }
+
+      const result = await response.json();
+      console.log("API response:", result);
+
+      setJobs(result.data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-40">
+        <p className="text-gray-500 text-lg">
+          Loading opportunities...
         </p>
       </div>
+    );
+  }
 
-      <div className="flex justify-end mb-4">
-        <span className="text-sm text-gray-500">Sort by: </span>
-        <select className="ml-2 border border-gray-300 rounded p-1 text-sm">
-          <option>Most relevant</option>
-          <option>Newest</option>
-          <option>Oldest</option>
-        </select>
+  if (error) {
+    return (
+      <div className="flex justify-center items-center h-40">
+        <p className="text-red-500 text-lg">
+          {error}
+        </p>
       </div>
+    );
+  }
 
-      <div className="grid gap-6">
-        {jobsData.map((job) => (
-          <JobCard key={job.id} job={job} />
-        ))}
-      </div>
+  return (
+    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {jobs.map((job) => (
+        <JobCard key={job._id} job={job} />
+      ))}
     </div>
   );
 };

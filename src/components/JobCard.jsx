@@ -1,39 +1,29 @@
 const JobCard = ({ job }) => {
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm hover:shadow-md transition flex flex-col md:flex-row gap-4">
-      {/* Logo / Avatar */}
-      <img
-        src={job.avatar}
-        alt={job.company}
-        className="w-14 h-14 rounded-full object-cover flex-shrink-0"
-      />
+    <div className="bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition-shadow duration-300">
+      <h3 className="text-xl font-semibold text-gray-800 mb-2">
+        {job.title}
+      </h3>
 
-      {/* Job Info */}
-      <div className="flex-1">
-        <h2 className="text-lg font-semibold text-gray-900">{job.title}</h2>
-        <p className="text-sm text-gray-500 mt-1">
-          {job.company} • {job.location}
-        </p>
-        <p className="text-gray-700 text-sm mt-2">{job.description}</p>
+      <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+        {job.description}
+      </p>
 
-        {/* Tags */}
-        <div className="mt-3 flex flex-wrap gap-2">
-          {job.tags.map((tag, idx) => (
-            <span
-              key={idx}
-              className={`text-xs px-2 py-1 rounded-full border ${
-                tag.color === "green"
-                  ? "bg-green-100 text-green-700 border-green-300"
-                  : tag.color === "yellow"
-                  ? "bg-yellow-100 text-yellow-700 border-yellow-300"
-                  : "bg-purple-100 text-purple-700 border-purple-300"
-              }`}
-            >
-              {tag.label}
-            </span>
-          ))}
-        </div>
+      <div className="flex flex-wrap gap-2 mb-4">
+        <span className="px-3 py-1 text-sm bg-blue-100 text-blue-700 rounded-full">
+          {job.opportunityType}
+        </span>
+
+        {job.location && (
+          <span className="px-3 py-1 text-sm bg-green-100 text-green-700 rounded-full">
+            {job.location}
+          </span>
+        )}
       </div>
+
+      <button className="mt-auto text-blue-600 font-medium hover:underline">
+        View Details →
+      </button>
     </div>
   );
 };
